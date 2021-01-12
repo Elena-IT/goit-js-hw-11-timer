@@ -1,6 +1,6 @@
 new CountdownTimer({
   selector: '#timer-1',
-  targetDate: new Date('Jul 17, 2019'),
+  targetDate: new Date('Dec 4, 2021'),
 });
 
 /*
