@@ -9,18 +9,20 @@ function pad(value) {
   return String(value).padStart(2, '0');
 }
 
-function updateTimerFields(time) {
-  const days = pad(Math.floor(time / (1000 * 60 * 60 * 24)));
-  const hours = pad(
+function updateTimerFields({ days, hours, minutes, seconds }, time) {
+  const amountOfDays = pad(Math.floor(time / (1000 * 60 * 60 * 24)));
+  const amountOfHours = pad(
     Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
   );
-  const mins = pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
-  const secs = pad(Math.floor((time % (1000 * 60)) / 1000));
+  const amountOfMinutes = pad(
+    Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)),
+  );
+  const amountOfSeconds = pad(Math.floor((time % (1000 * 60)) / 1000));
 
-  refs.days.textContent = days;
-  refs.hours.textContent = hours;
-  refs.minutes.textContent = mins;
-  refs.seconds.textContent = secs;
+  days.textContent = amountOfDays;
+  hours.textContent = amountOfHours;
+  minutes.textContent = amountOfMinutes;
+  seconds.textContent = amountOfSeconds;
 }
 
 class CountdownTimer {
@@ -29,19 +31,20 @@ class CountdownTimer {
     this.targetDate = targetDate;
   }
 
-  start() {
-    updateTimerFields(0);
+  start(references) {
+    updateTimerFields(references, 0);
 
     setInterval(() => {
       const delta = this.targetDate - Date.now();
 
-      updateTimerFields(delta);
+      updateTimerFields(references, delta);
     }, 1000);
   }
 }
+
 const countdownTimer = new CountdownTimer({
   selector: '#timer-1',
   targetDate: new Date('Dec 04, 2021'),
 });
 
-countdownTimer.start();
+countdownTimer.start(refs);
